@@ -7,9 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
+
 <div class="container">
 
-    <h1>Employee Payroll System</h1>
+    <!-- ===== HEADER WITH THEME BUTTON ===== -->
+    <div class="header">
+        <h1>Employee Payroll System</h1>
+        <button id="themeToggle" class="theme-toggle">
+  🌙 Dark Mode
+</button>
+    </div>
 
     <!-- ================= MONTHLY SUMMARY ================= -->
     <section>
@@ -50,7 +58,7 @@
                 <option>Operations</option>
             </select>
 
-            <input type="number" id="salary" placeholder="Basic Salary" min="0"step="1"required>
+            <input type="number" id="salary" placeholder="Basic Salary" min="0" step="1" required>
             <button type="submit">Add Employee</button>
         </form>
     </section>
@@ -129,7 +137,4 @@
 <script src="script.js"></script>
 
 </body>
-<button id="themeToggle" class="theme-btn">
-  🌙 Dark Mode
-</button>
 </html>

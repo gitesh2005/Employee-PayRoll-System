@@ -1,8 +1,17 @@
 const BASE_URL = "https://employee-payroll-system-backend-lo3i.onrender.com/api";
 
-// Track active summary month/year
-let currentMonth = "January";
-let currentYear = 2026;
+// ================= TOAST FUNCTION =================
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.className = "toast";
+  }, 3000);
+}
 
 // ================= FORMAT CURRENCY =================
 function formatCurrency(amount) {
@@ -37,17 +46,11 @@ async function loadEmployees() {
       `;
     });
 
-    // ✅ SAFE UPDATE (will not crash)
-    const totalEmpElement = document.getElementById("totalEmployees");
-    if (totalEmpElement) {
-      totalEmpElement.innerText = employees.length;
-    }
-
   } catch (error) {
-    console.error(error); // 🔥 ADD THIS
-    alert("Failed to load employees");
+    showToast("Failed to load employees", "error");
   }
 }
+
 // ================= ADD EMPLOYEE =================
 document.getElementById("employeeForm").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -69,23 +72,18 @@ document.getElementById("employeeForm").addEventListener("submit", async (e) => 
 
     e.target.reset();
     loadEmployees();
+    showToast("Employee Added Successfully 🎉");
+
   } catch {
-    alert("Error adding employee");
+    showToast("Error adding employee", "error");
   }
 });
 
 // ================= DELETE EMPLOYEE =================
 async function deleteEmployee(id) {
-  if (!confirm("Delete this employee?")) return;
-
   await fetch(`${BASE_URL}/employees/${id}`, { method: "DELETE" });
   loadEmployees();
-}
-
-// ================= FILL PAYROLL FORM =================
-function fillPayrollForm(id) {
-  document.getElementById("payrollEmployeeId").value = id;
-  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  showToast("Employee Deleted");
 }
 
 // ================= GENERATE PAYROLL =================
@@ -110,22 +108,16 @@ document.getElementById("payrollForm").addEventListener("submit", async (e) => {
     const result = await res.json();
 
     if (!res.ok) {
-      alert(result.message);
+      showToast(result.message, "error");
       return;
     }
 
-    alert("Payroll Generated!");
-
-    // Update active month
-    currentMonth = data.month;
-    currentYear = data.year;
-
     e.target.reset();
     loadPayroll();
-    loadSummary(currentMonth, currentYear);
+    showToast("Payroll Generated Successfully 💰");
 
   } catch {
-    alert("Error generating payroll");
+    showToast("Error generating payroll", "error");
   }
 });
 
@@ -151,92 +143,54 @@ async function loadPayroll() {
       </tr>
     `;
   });
-
-  // 🔥 AUTO UPDATE SUMMARY USING LATEST RECORD
-  if (payrolls.length > 0) {
-    const latest = payrolls[payrolls.length - 1];
-    loadSummary(latest.month, latest.year);
-  } else {
-    // If no payroll records
-    document.getElementById("totalPayroll").innerText = "₹ 0.00";
-    document.getElementById("employeeCount").innerText = "0";
-    document.getElementById("highestSalary").innerText = "₹ 0.00";
-    document.getElementById("averageSalary").innerText = "₹ 0.00";
-  }
 }
 
 // ================= DELETE PAYROLL =================
 async function deletePayroll(id) {
-  if (!confirm("Delete this payroll record?")) return;
-
   await fetch(`${BASE_URL}/payroll/${id}`, { method: "DELETE" });
-
   loadPayroll();
-  loadSummary(currentMonth, currentYear);
+  showToast("Payroll Record Deleted");
 }
 
 // ================= CLEAR ALL PAYROLL =================
 async function clearAllPayroll() {
-  if (!confirm("Clear ALL payroll records?")) return;
-
   await fetch(`${BASE_URL}/payroll`, { method: "DELETE" });
-
   loadPayroll();
-  loadSummary(currentMonth, currentYear);
+  showToast("All Payroll Records Cleared 🗑️");
 }
 
-// ================= LOAD SUMMARY =================
-async function loadSummary(month, year) {
-  const res = await fetch(`${BASE_URL}/payroll/summary/${month}/${year}`);
-  const data = await res.json();
-
-  document.getElementById("totalPayroll").innerText =
-    formatCurrency(data.totalPayroll);
-
-  document.getElementById("employeeCount").innerText =
-    data.employeeCount || 0;
-
-  document.getElementById("highestSalary").innerText =
-    formatCurrency(data.highestSalary);
-
-  document.getElementById("averageSalary").innerText =
-    formatCurrency(data.averageSalary);
-}
-
-// ================= INIT =================
-document.addEventListener("DOMContentLoaded", () => {
-  loadEmployees();
-  loadPayroll();
-  loadSummary(currentMonth, currentYear);
-});
-
-
-// ================= THEME TOGGLE (SAFE VERSION) =================
-document.addEventListener("DOMContentLoaded", function () {
+// ================= THEME TOGGLE =================
+window.addEventListener("DOMContentLoaded", function () {
 
   const themeToggle = document.getElementById("themeToggle");
 
-  if (!themeToggle) return; // prevents crash if button not found
+  if (!themeToggle) return;
 
-  // Load saved theme
   const savedTheme = localStorage.getItem("theme");
 
   if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
+    document.body.classList.add("dark");
     themeToggle.textContent = "☀️ Light Mode";
   }
 
   themeToggle.addEventListener("click", function () {
-    document.body.classList.toggle("dark-mode");
 
-    if (document.body.classList.contains("dark-mode")) {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
       localStorage.setItem("theme", "dark");
       themeToggle.textContent = "☀️ Light Mode";
     } else {
       localStorage.setItem("theme", "light");
       themeToggle.textContent = "🌙 Dark Mode";
     }
+
   });
 
 });
 
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  loadEmployees();
+  loadPayroll();
+});
