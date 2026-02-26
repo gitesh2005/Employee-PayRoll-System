@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://employee-payroll-system-backend-lo3i.onrender.com/api";
 
 // Track active summary month/year
 let currentMonth = "January";
@@ -211,14 +211,3 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-
-  const btn = document.querySelector(".theme-toggle");
-
-  if (document.body.classList.contains("dark")) {
-    btn.textContent = "☀ Light Mode";
-  } else {
-    btn.textContent = "🌙 Dark Mode";
-  }
-}
