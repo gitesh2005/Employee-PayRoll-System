@@ -198,3 +198,14 @@ async function loadPayroll() {
     `;
   });
 }
+
+
+window.clearAllPayroll = async function () {
+  try {
+    await fetch(`${BASE_URL}/payroll`, { method: "DELETE" });
+    loadPayroll();
+    showToast("All Payroll Records Cleared 🗑️");
+  } catch (error) {
+    showToast("Failed to clear payroll", "error");
+  }
+};
