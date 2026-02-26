@@ -1,0 +1,222 @@
+/* ================= GLOBAL ================= */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #eef2f7, #e6ecf5);
+  color: #2c3e50;
+}
+
+body.dark {
+  background: linear-gradient(135deg, #0f172a, #0b1120);
+  color: #e2e8f0;
+}
+
+.container {
+  width: 92%;
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+/* ================= THEME TOGGLE BUTTON ================= */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4c8bf5, #3a6edc);
+  color: white;
+  font-weight: 500;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+/* ================= SECTIONS ================= */
+section {
+  background: white;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease;
+}
+
+body.dark section {
+  background: #1e293b;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* ================= FORMS ================= */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+form input,
+form select {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  min-width: 160px;
+  flex: 1;
+  background: #f9fbff;
+}
+
+body.dark form input,
+body.dark form select {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #4c8bf5;
+  box-shadow: 0 0 5px rgba(76, 139, 245, 0.4);
+  transform: scale(1.02);
+}
+
+/* ================= FORM BUTTON ================= */
+form button {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #4c8bf5, #3a6edc);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(76, 139, 245, 0.4);
+}
+
+/* ================= TABLE ================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table thead {
+  background: linear-gradient(135deg, #4c8bf5, #3a6edc);
+  color: white;
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: center;
+}
+
+table tr {
+  border-bottom: 1px solid #eee;
+}
+
+body.dark table tr {
+  border-bottom: 1px solid #334155;
+}
+
+table tbody tr:hover {
+  background-color: #f3f7ff;
+  transform: scale(1.01);
+}
+
+body.dark table tbody tr:hover {
+  background-color: #334155;
+}
+
+/* ================= ACTION BUTTONS ================= */
+button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:nth-child(1) {
+  background-color: #28a745;
+  color: white;
+}
+
+button:nth-child(2) {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ================= SUMMARY CARDS ================= */
+#summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: linear-gradient(135deg, #f9fbff, #ffffff);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #e6ecf5;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+body.dark .card {
+  background: #0f172a;
+  border: 1px solid #334155;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card span {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== ONLY INCREASE DROPDOWN LIST SIZE ===== */
+select {
+  font-size: 17px;
+}
+
+select option {
+  font-size: 17px;
+  padding: 12px;
+}

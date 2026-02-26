@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1772136785784,
+    "name": "Gitesh",
+    "department": "Finance",
+    "basicSalary": 11
+  },
+  {
+    "id": 1772136798066,
+    "name": "Gitesh Sorout",
+    "department": "IT",
+    "basicSalary": -4
+  }
+]
