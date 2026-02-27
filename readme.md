@@ -8,8 +8,8 @@ A full-stack web application to manage employee records, generate payroll, and c
 
 ## 🚀 Live Demo
 
-🌐 Frontend: https://your-frontend-link.netlify.app/  
-⚙️ Backend: https://your-backend-link.onrender.com  
+🌐 Frontend: https://employee-payroll-system-frontend.netlify.app/  
+⚙️ Backend: https://employee-payroll-system-backend-lo3i.onrender.com
 
 ---
 
@@ -68,7 +68,7 @@ Employee-Payroll
 ### 1️⃣ Clone the repository
 
 ```
-git clone https://github.com/gitesh2005/employee-payroll.git
+git clone https://github.com/gitesh2005/Employee-PayRoll-System.git
 cd employee-payroll
 ```
 
@@ -125,7 +125,7 @@ Charts & analytics
 Gitesh Sorout  
 
 GitHub: https://github.com/gitesh2005  
-LinkedIn: 
+LinkedIn: https://www.linkedin.com/in/gitesh-sorout-146697289/
 
 ---
 
