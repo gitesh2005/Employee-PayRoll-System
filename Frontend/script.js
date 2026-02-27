@@ -39,8 +39,8 @@ async function loadEmployees() {
           <td>${emp.department}</td>
           <td>${formatCurrency(emp.basicSalary)}</td>
           <td>
-            <button onclick="fillPayrollForm(${emp.id})">Generate</button>
-            <button onclick="deleteEmployee(${emp.id})">Delete</button>
+            <button class="btn-generate" onclick="fillPayrollForm(${emp.id})">Generate</button>
+            <button class="btn-delete" onclick="deleteEmployee(${emp.id})">Delete</button>
           </td>
         </tr>
       `;
@@ -56,7 +56,6 @@ async function loadSummary() {
     const res = await fetch(`${BASE_URL}/payroll/summary`);
     const summary = await res.json();
 
-    // Mapping to your HTML IDs: totalPayroll, employeeCount, highestSalary, averageSalary
     const totalPayrollEl = document.getElementById("totalPayroll");
     const employeeCountEl = document.getElementById("employeeCount");
     const highestSalaryEl = document.getElementById("highestSalary");
@@ -72,42 +71,37 @@ async function loadSummary() {
   }
 }
 
-// ================= GLOBAL FUNCTIONS =================
-window.fillPayrollForm = function(id) {
-  const input = document.getElementById("payrollEmployeeId");
-  if (input) input.value = id;
-
-  window.scrollTo({
-    top: document.body.scrollHeight,
-    behavior: "smooth"
-  });
-};
+// ================= GLOBAL DELETE FUNCTIONS (NO POPUPS) =================
 
 window.deleteEmployee = async function(id) {
-  if (!confirm("Are you sure you want to delete this employee?")) return;
   await fetch(`${BASE_URL}/employees/${id}`, { method: "DELETE" });
   loadEmployees();
   showToast("Employee Deleted");
 };
 
 window.deletePayroll = async function(id) {
-  if (!confirm("Are you sure you want to delete this record?")) return;
   await fetch(`${BASE_URL}/payroll/${id}`, { method: "DELETE" });
   loadPayroll();
-  loadSummary(); // Update cards after delete
+  loadSummary(); 
   showToast("Payroll Record Deleted");
 };
 
 window.clearAllPayroll = async function () {
-  if (!confirm("⚠️ This will delete ALL payroll records. Continue?")) return;
   try {
     await fetch(`${BASE_URL}/payroll`, { method: "DELETE" });
     loadPayroll();
-    loadSummary(); // Reset cards to zero
-    showToast("All Payroll Records Cleared 🗑️");
+    loadSummary(); 
+    showToast("All Records Cleared 🗑️");
   } catch (error) {
     showToast("Failed to clear payroll", "error");
   }
+};
+
+// ================= GLOBAL HELPERS =================
+window.fillPayrollForm = function(id) {
+  const input = document.getElementById("payrollEmployeeId");
+  if (input) input.value = id;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 };
 
 // ================= LOAD PAYROLL HISTORY =================
@@ -115,7 +109,6 @@ async function loadPayroll() {
   try {
     const res = await fetch(`${BASE_URL}/payroll`);
     const payrolls = await res.json();
-
     const tableBody = document.getElementById("payrollTableBody");
     tableBody.innerHTML = "";
 
@@ -128,7 +121,7 @@ async function loadPayroll() {
           <td>${p.presentDays}</td>
           <td>${formatCurrency(p.netSalary)}</td>
           <td>
-            <button onclick="deletePayroll(${p.id})">Delete</button>
+            <button class="btn-delete" onclick="deletePayroll(${p.id})">Delete</button>
           </td>
         </tr>
       `;
@@ -141,15 +134,21 @@ async function loadPayroll() {
 // ================= INIT & LISTENERS =================
 document.addEventListener("DOMContentLoaded", function () {
 
-  // Add Employee Form
   const employeeForm = document.getElementById("employeeForm");
   if (employeeForm) {
     employeeForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const salaryVal = Number(document.getElementById("salary").value);
+      
+      if(salaryVal < 0) {
+          showToast("Salary cannot be negative!", "error");
+          return;
+      }
+
       const employee = {
         name: document.getElementById("name").value,
         department: document.getElementById("department").value,
-        basicSalary: Number(document.getElementById("salary").value)
+        basicSalary: salaryVal
       };
 
       try {
@@ -161,14 +160,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!res.ok) throw new Error();
         e.target.reset();
         loadEmployees();
-        showToast("Employee Added Successfully 🎉");
+        showToast("Employee Added 🎉");
       } catch {
         showToast("Error adding employee", "error");
       }
     });
   }
 
-  // Generate Payroll Form
   const payrollForm = document.getElementById("payrollForm");
   if (payrollForm) {
     payrollForm.addEventListener("submit", async (e) => {
@@ -194,30 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         e.target.reset();
         loadPayroll();
-        loadSummary(); // Updates cards after new entry
-        showToast("Payroll Generated Successfully 💰");
+        loadSummary(); 
+        showToast("Payroll Generated 💰");
       } catch {
         showToast("Error generating payroll", "error");
-      }
-    });
-  }
-
-  // Theme Toggle
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      document.body.classList.add("dark");
-      themeToggle.textContent = "☀️ Light Mode";
-    }
-    themeToggle.addEventListener("click", function () {
-      document.body.classList.toggle("dark");
-      if (document.body.classList.contains("dark")) {
-        localStorage.setItem("theme", "dark");
-        themeToggle.textContent = "☀️ Light Mode";
-      } else {
-        localStorage.setItem("theme", "light");
-        themeToggle.textContent = "🌙 Dark Mode";
       }
     });
   }
