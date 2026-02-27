@@ -1,69 +1,35 @@
-/* ================= GLOBAL ================= */
+/* ================= GLOBAL & ZOOM STABILITY ================= */
 * {
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  /* Smoothly fade colors during theme toggle */
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+html, body {
   margin: 0;
   padding: 0;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevents horizontal shaking/zoom-out issues */
+  position: relative;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
   background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
   color: #1e293b;
-  line-height: 1.6;
 }
 
+/* ================= DARK MODE ================= */
 body.dark {
   background: linear-gradient(135deg, #0f172a, #0b1120);
   color: #f1f5f9;
 }
 
-.container {
-  width: 95%;
-  max-width: 1200px;
-  margin: 40px auto;
+body.dark section {
+  background: #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-weight: 700;
-  color: #334155;
-}
-
-body.dark h1 {
-  color: #f8fafc;
-}
-
-/* ================= TOAST NOTIFICATIONS ================= */
-.toast {
-  visibility: hidden;
-  min-width: 250px;
-  background-color: #334155;
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1000;
-  right: 30px;
-  top: 30px;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.toast.show {
-  visibility: visible;
-  animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
-}
-
-.toast.success { background-color: #10b981; }
-.toast.error { background-color: #ef4444; }
-
-@keyframes slideIn {
-  from { right: -300px; opacity: 0; }
-  to { right: 30px; opacity: 1; }
-}
+body.dark h1 { color: #f8fafc; }
+body.dark .card { background: #0f172a; border-color: #1e293b; }
 
 /* ================= THEME TOGGLE ================= */
 .theme-toggle {
@@ -81,19 +47,24 @@ body.dark h1 {
   z-index: 100;
 }
 
-/* ================= SECTIONS ================= */
+.theme-toggle:hover {
+  background: #2563eb;
+  transform: scale(1.05);
+}
+
+/* ================= CONTAINER & SECTIONS ================= */
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
 section {
   background: white;
   padding: 30px;
   margin-bottom: 30px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  animation: fadeIn 0.4s ease-out;
-}
-
-body.dark section {
-  background: #1e293b;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 h2 {
@@ -104,15 +75,14 @@ h2 {
   padding-left: 12px;
 }
 
-/* ================= FORMS ================= */
+/* ================= FORMS & INPUTS ================= */
 form {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
 }
 
-form input,
-form select {
+form input, form select {
   padding: 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -122,8 +92,12 @@ form select {
   font-size: 1rem;
 }
 
-body.dark form input,
-body.dark form select {
+/* Anti-auto-zoom for mobile inputs */
+@media screen and (max-width: 768px) {
+  form input, form select { font-size: 16px !important; }
+}
+
+body.dark form input, body.dark form select {
   background: #0f172a;
   border-color: #334155;
   color: white;
@@ -139,41 +113,23 @@ form button {
   cursor: pointer;
 }
 
-/* ================= NEW ACTION BUTTON COLORS ================= */
-
-/* Green Generate Button */
+/* ================= ACTION BUTTON COLORS ================= */
 .btn-generate {
-  background-color: #10b981 !important;
+  background-color: #10b981 !important; /* Green */
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  margin-right: 5px;
 }
 
-.btn-generate:hover {
-  background-color: #059669 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
-}
-
-/* Red Delete Button */
 .btn-delete {
-  background-color: #ef4444 !important;
+  background-color: #ef4444 !important; /* Red */
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-}
-
-.btn-delete:hover {
-  background-color: #dc2626 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
 }
 
 /* ================= SUMMARY CARDS ================= */
@@ -184,17 +140,11 @@ form button {
 }
 
 .card {
-  background: white;
   padding: 24px;
   border-radius: 16px;
   text-align: center;
   border: 1px solid #f1f5f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-}
-
-body.dark .card {
-  background: #0f172a;
-  border-color: #1e293b;
 }
 
 .card span {
@@ -204,16 +154,10 @@ body.dark .card {
   margin-top: 8px;
 }
 
-/* Data-Specific Colors */
 #totalPayroll { color: #3b82f6; }
 #employeeCount { color: #10b981; }
 #highestSalary { color: #8b5cf6; }
 #averageSalary { color: #f59e0b; }
-
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
-}
 
 /* ================= TABLES ================= */
 .table-container {
@@ -229,27 +173,40 @@ table {
 
 table th {
   background: #f8fafc;
-  color: #64748b;
   padding: 16px;
   text-align: left;
 }
 
-body.dark table th {
-  background: #334155;
-  color: #cbd5e1;
-}
+body.dark table th { background: #334155; color: #cbd5e1; }
 
 table td {
   padding: 16px;
   border-bottom: 1px solid #f1f5f9;
 }
 
-body.dark table td {
-  border-color: #334155;
+body.dark table td { border-color: #334155; }
+
+/* ================= TOAST NOTIFICATIONS ================= */
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #334155;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1000;
+  right: 30px;
+  top: 30px;
 }
 
-/* ================= ANIMATION ================= */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.toast.show {
+  visibility: visible;
+  animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+@keyframes slideIn {
+  from { right: -300px; opacity: 0; }
+  to { right: 30px; opacity: 1; }
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=3">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
     <title>Employee Payroll System</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,12 +13,12 @@
 
     <div class="container">
 
-        <div class="header">
+        <header class="header">
             <h1>Employee Payroll System</h1>
             <button id="themeToggle" class="theme-toggle">
                 🌙 Dark Mode
             </button>
-        </div>
+        </header>
 
         <section>
             <h2>Monthly Summary</h2>
@@ -63,7 +63,10 @@
         </section>
 
         <section>
-            <h2>Employee List</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Employee List</h2>
+                <input type="text" id="employeeSearch" placeholder="Search by name..." style="min-width: 200px; padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
             <div class="table-container">
                 <table>
                     <thead>
@@ -101,7 +104,7 @@
                     <option>December</option>
                 </select>
 
-                <input type="number" id="year" placeholder="Year (e.g. 2026)" min="1900" required>
+                <input type="number" id="year" placeholder="Year" min="1900" value="2026" required>
                 <input type="number" id="workingDays" placeholder="Working Days" required>
                 <input type="number" id="presentDays" placeholder="Present Days" required>
 
@@ -128,7 +131,7 @@
             </div>
 
             <button onclick="clearAllPayroll()" class="clear-btn" style="margin-top: 15px;">
-                Clear All Payroll (Dev Mode)
+                Clear All Payroll Records
             </button>
         </section>
 
