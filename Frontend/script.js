@@ -72,7 +72,6 @@ async function loadSummary() {
 }
 
 // ================= GLOBAL DELETE FUNCTIONS (NO POPUPS) =================
-
 window.deleteEmployee = async function(id) {
   await fetch(`${BASE_URL}/employees/${id}`, { method: "DELETE" });
   loadEmployees();
@@ -118,7 +117,7 @@ async function loadPayroll() {
           <td>${p.name}</td>
           <td>${p.month}</td>
           <td>${p.year}</td>
-          <td>${p.presentDays}</td>
+          <td>${p.present_days || p.presentDays}</td>
           <td>${formatCurrency(p.netSalary)}</td>
           <td>
             <button class="btn-delete" onclick="deletePayroll(${p.id})">Delete</button>
@@ -134,6 +133,7 @@ async function loadPayroll() {
 // ================= INIT & LISTENERS =================
 document.addEventListener("DOMContentLoaded", function () {
 
+  // 1. Handle Employee Form
   const employeeForm = document.getElementById("employeeForm");
   if (employeeForm) {
     employeeForm.addEventListener("submit", async (e) => {
@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // 2. Handle Payroll Form
   const payrollForm = document.getElementById("payrollForm");
   if (payrollForm) {
     payrollForm.addEventListener("submit", async (e) => {
@@ -200,7 +201,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Initial Data Load
+  // 3. Robust Theme Toggle Listener (FIXED: Moved inside DOMContentLoaded)
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+      themeToggle.textContent = "☀️ Light Mode";
+    }
+
+    themeToggle.addEventListener("click", function () {
+      const isDark = document.body.classList.toggle("dark");
+      if (isDark) {
+        localStorage.setItem("theme", "dark");
+        themeToggle.textContent = "☀️ Light Mode";
+      } else {
+        localStorage.setItem("theme", "light");
+        themeToggle.textContent = "🌙 Dark Mode";
+      }
+    });
+  }
+
+  // 4. Initial Data Load
   loadEmployees();
   loadPayroll();
   loadSummary(); 
