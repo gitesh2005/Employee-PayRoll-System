@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <title>Employee Payroll System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <div class="container">
+
+        <header class="header">
+            <h1>Employee Payroll System</h1>
+            <button id="themeToggle" class="theme-toggle">
+                🌙 Dark Mode
+            </button>
+        </header>
+
+        <section>
+            <h2>Monthly Summary</h2>
+            <div id="summary">
+                <div class="card">
+                    <p>Total Payroll</p>
+                    <span id="totalPayroll">₹ 0.00</span>
+                </div>
+                <div class="card">
+                    <p>Employees Paid</p>
+                    <span id="employeeCount">0</span>
+                </div>
+                <div class="card">
+                    <p>Highest Salary</p>
+                    <span id="highestSalary">₹ 0.00</span>
+                </div>
+                <div class="card">
+                    <p>Average Salary</p>
+                    <span id="averageSalary">₹ 0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Add Employee</h2>
+            <form id="employeeForm">
+                <input type="text" id="name" placeholder="Name" required>
+
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>HR</option>
+                    <option>IT</option>
+                    <option>Finance</option>
+                    <option>Marketing</option>
+                    <option>Sales</option>
+                    <option>Operations</option>
+                </select>
+
+                <input type="number" id="salary" placeholder="Basic Salary" min="0" step="1" required>
+                <button type="submit">Add Employee</button>
+            </form>
+        </section>
+
+        <section>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Employee List</h2>
+                <input type="text" id="employeeSearch" placeholder="Search by name..." style="min-width: 200px; padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Salary (₹)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="generateSection">
+            <h2>Generate Payroll</h2>
+            <form id="payrollForm">
+                <input type="number" id="payrollEmployeeId" placeholder="Employee ID" min="0" required>
+
+                <select id="month" required>
+                    <option value="">Select Month</option>
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                </select>
+
+                <input type="number" id="year" placeholder="Year" min="1900" value="2026" required>
+                <input type="number" id="workingDays" placeholder="Working Days" required>
+                <input type="number" id="presentDays" placeholder="Present Days" required>
+
+                <button type="submit">Generate Payroll</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Payroll History</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Month</th>
+                            <th>Year</th>
+                            <th>Present Days</th>
+                            <th>Net Salary (₹)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payrollTableBody"></tbody>
+                </table>
+            </div>
+
+            <button onclick="clearAllPayroll()" class="clear-btn" style="margin-top: 15px;">
+                Clear All Payroll Records
+            </button>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
