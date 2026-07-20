@@ -1,4 +1,4 @@
-const BASE_URL = "https://employee-payroll-system-t3mn.onrender.com";
+const BASE_URL = "https://employee-payroll-system-t3mn.onrender.com/api";
 let cachedEmployees = [];
 
 // ================= TOAST FUNCTION =================
