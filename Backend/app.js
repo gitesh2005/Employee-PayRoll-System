@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 
+const employeeRoutes = require("./Routes/employeeRoutes");
+const payrollRoutes = require("./Routes/payrollRoutes");
+
 const app = express();
 
-// Middleware
+// CORS Configuration
 app.use(cors({
     origin: [
         "http://localhost:5500",
@@ -13,10 +16,15 @@ app.use(cors({
     credentials: true
 }));
 
+// Body Parsers
 app.use(express.json());
 
+app.use(express.urlencoded({
+    extended: true
+}));
+
 // Routes
-app.use("/api/employees", require("./routes/employeeRoutes"));
-app.use("/api/payroll", require("./routes/payrollRoutes"));
+app.use("/api/employees", employeeRoutes);
+app.use("/api/payroll", payrollRoutes);
 
 module.exports = app;
