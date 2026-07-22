@@ -8,8 +8,7 @@ A full-stack web application designed to manage employee records, generate payro
 
 ## 🚀 Live Demo
 
-🌐 **Frontend:** https://employee-payroll-system-frontend.netlify.app/  
-⚙️ **Backend:** https://employee-payroll-system-backend-lo3i.onrender.com
+🌐 https://employee-payroll-managementsystem.netlify.app/
 
 ---
 
@@ -37,6 +36,9 @@ A full-stack web application designed to manage employee records, generate payro
 ### Backend
 - Node.js
 - Express.js
+
+### Database
+- MongoDB
 
 ### Deployment
 - Frontend: Netlify
